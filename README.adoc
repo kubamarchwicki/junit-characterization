@@ -1,0 +1,7 @@
+= JUnit Characterization Tests
+
+A simple utility for JUnit 4.7+ (`@Rules` required) for working with *characterization tests*
+
+== Characterization tests
+
+A characterization test is a means to describe (characterize) the actual behavior of an existing piece of software, and therefore protect existing behavior of legacy code against unintended changes via automated testing. This term was coined by Michael Feathers
