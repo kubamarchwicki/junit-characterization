@@ -5,6 +5,7 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.List;
 
 public class CharacterizationTest implements TestRule {
@@ -13,8 +14,9 @@ public class CharacterizationTest implements TestRule {
     private List<TestRule> rules;
 
     public CharacterizationTest() {
+        //TODO: file creation
         rules.add(new OutputCapture(capturedStream));
-        rules.add(new CaptureVerifier(capturedStream));
+        rules.add(new CaptureVerifier(new File(""), capturedStream));
     }
 
     @Override
