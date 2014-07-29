@@ -5,13 +5,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import static com.github.junitcharacterization.builders.TestByteArrayOutputStreamBuilder.*;
+import static com.github.junitcharacterization.builders.TestFileBuilder.*;
 import static org.assertj.core.api.Assertions.*;
 
 public class ReadLinesTest {
@@ -40,12 +40,11 @@ public class ReadLinesTest {
     @Test
     public void should_return_three_elements_from_file() throws IOException {
         //given
-        File file = folder.newFile();
-        BufferedWriter out = new BufferedWriter(new FileWriter(file));
-        out.write("first line\n");
-        out.write("second line\n");
-        out.write("third line\n");
-        out.close();
+        final File file = aFile(folder)
+                .withContent("first line\n")
+                .withContent("second line\n")
+                .withContent("third line\n")
+                .build();
 
         //when
         List<String> strings = ReadLines.fromFile(file);
@@ -60,10 +59,10 @@ public class ReadLinesTest {
     @Test
     public void should_return_three_elements_from_stream() throws IOException {
         //given
-        final String elements = "first\nsecond\nthird";
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        baos.write(elements.getBytes());
+        final ByteArrayOutputStream baos = aStream()
+                .withContent("first\n")
+                .withContent("second\n")
+                .withContent("third\n").build();
 
         //when
         List<String> strings = ReadLines.fromStream(baos);
