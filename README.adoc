@@ -1,7 +1,97 @@
 = JUnit Characterization Tests
 
-A simple utility for JUnit 4.7+ (`@Rules` required) for working with *characterization tests*
+A simple utility for JUnit 4.6+ (`@Rules` required) for working with *characterization tests*
 
 == Characterization tests
 
-A characterization test is a means to describe (characterize) the actual behavior of an existing piece of software, and therefore protect existing behavior of legacy code against unintended changes via automated testing. This term was coined by Michael Feathers
+A characterization test is a means to describe (characterize) the actual
+behavior of an existing piece of software, and therefore protect existing
+behavior of legacy code against unintended changes via automated testing. +
+This term was coined by Michael Feathers
+
+== Usage
+
+Having a _Legacy Business Object_; assuming a hard to test class
+
+[source, java]
+----
+package com.example;
+
+public class BusinessClass {
+
+    public String businessMethod(String param) {
+        System.out.println("param = " + param);
+        final String split = param.split(" ")[0];
+        System.out.println("after split = " + split);
+        return split;
+    }
+
+}
+----
+
+We can introduce a Chracterization Test - to capture the log of the class and
+later on re-test; to see if the refcatoring impacted the actual output.
+
+[source, java]
+----
+
+@RunWith(JUnitParamsRunner.class)
+public class BusinessClassTest {
+
+    @ClassRule //<1>
+    public static CharacterizationRule rule = new CharacterizationRule(BusinessClassTest.class);
+
+    private BusinessClass service = new BusinessClass();
+
+    @Test
+    @FileParameters("classpath:tst.csv")  //<2>
+    public void just_run_the_method(String parameter) {
+        service.businessMethod(parameter);
+
+    }
+}
+----
+<1> Invoking characterization rule
+<2> This is additional junit-params line.
+
+NOTE: The junit extension works only for `@ClassRule`; an output file that gets
+generated (or consumed for verification) is named after the classname. Hence running
+the CharacterizationRule with `@Rule` attribute doesn't make any sense at the moment.
+
+Initially, to create the master characteristics, the test needs running with
+`pinchpoint` property. This turns the rule into a recording mode, when a master
+output is created. All subsequent test runs (without a property) will be checking
+the output against the master data.
+
+----
+mvn -Dpinchpoint=true -Dtest=BusinessClassTest test
+----
+
+The default output folder is `target/test-classes`; the file name is the test
+class cannonical name, followed with a `txt` extension.
+
+=== JUnit Patams
+
+JUnitParams project adds a new runner to JUnit and provides much easier and
+readable parametrised tests for JUnit >=4.6.
+
+TIP: Using https://github.com/Pragmatists/JUnitParams/[junitparams] is not essential,
+ nonetheless, a reliable characterization tests makes sense when a significant
+ amount of data is pushed through the class in testing
+
+Sample CSV file with parameters for this particular example looks as follows
+----
+first parameter
+second parameter
+third parameter
+----
+
+A sample output for this example would be
+----
+param = first parameter
+after split = first
+param = second parameter
+after split = second
+param = third parameter
+after split = third
+----
