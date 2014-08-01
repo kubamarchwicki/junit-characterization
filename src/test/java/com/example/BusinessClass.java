@@ -1,4 +1,4 @@
-package com.examples;
+package com.example;
 
 public class BusinessClass {
 

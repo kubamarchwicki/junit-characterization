@@ -1,4 +1,4 @@
-package com.examples;
+package com.example;
 
 import com.github.junitcharacterization.CharacterizationRule;
 import junitparams.FileParameters;
