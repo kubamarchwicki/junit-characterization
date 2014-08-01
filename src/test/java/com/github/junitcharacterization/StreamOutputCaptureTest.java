@@ -7,7 +7,7 @@ import java.io.PrintStream;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class OutputCaptureTest {
+public class StreamOutputCaptureTest {
 
     private StreamOutputCapture capture;
 
