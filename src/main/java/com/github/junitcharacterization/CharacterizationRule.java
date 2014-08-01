@@ -25,7 +25,7 @@ public class CharacterizationRule implements TestRule {
         String baseFolder = clazz.getResource("/").getFile();
         File file = new File(baseFolder + filename);
 
-        String env = System.getenv(ENV_NAME_FOR_RECORDING);
+        String env = System.getProperty(ENV_NAME_FOR_RECORDING);
         if (env != null) {
             try {
                 log.warning("RECORDING MODE! Output to file [filename="+file.toURI()+"]");
