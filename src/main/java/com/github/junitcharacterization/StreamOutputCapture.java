@@ -5,12 +5,12 @@ import org.junit.rules.ExternalResource;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-public class OutputCapture extends ExternalResource {
+public class StreamOutputCapture extends ExternalResource {
 
     private PrintStream original;
-    private final ByteArrayOutputStream capturedStream;
+    protected final ByteArrayOutputStream capturedStream;
 
-    public OutputCapture(ByteArrayOutputStream capturedStream) {
+    public StreamOutputCapture(ByteArrayOutputStream capturedStream) {
         this.capturedStream = capturedStream;
     }
 

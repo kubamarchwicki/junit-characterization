@@ -9,14 +9,14 @@ import static org.assertj.core.api.Assertions.*;
 
 public class OutputCaptureTest {
 
-    private OutputCapture capture;
+    private StreamOutputCapture capture;
 
     @Test
     public void should_capture_output() throws Throwable {
         //given
         final ByteArrayOutputStream capturedStream = new ByteArrayOutputStream();
         final PrintStream originalStream = System.out;
-        capture = new OutputCapture(capturedStream);
+        capture = new StreamOutputCapture(capturedStream);
 
         //when
         capture.before();
