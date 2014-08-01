@@ -6,6 +6,7 @@ import org.junit.runners.model.Statement;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -18,13 +19,21 @@ public class CharacterizationRule implements TestRule {
     private List<TestRule> rules = new ArrayList<>();
 
     public CharacterizationRule(Class<?> clazz) {
+        //TODO; create an output file per method (not only class)
+        //TODO: refactor, move to class, factory class
         String filename = clazz.getCanonicalName() + ".txt";
-        File file = new File(filename);
+        String baseFolder = clazz.getResource("/").getFile();
+        File file = new File(baseFolder + filename);
 
         String env = System.getenv(ENV_NAME_FOR_RECORDING);
         if (env != null) {
-            log.warning("RECORDING MODE! Output to file [filename="+filename+"]");
-            rules.add(new FileOutputCapture(file, capturedStream));
+            try {
+                log.warning("RECORDING MODE! Output to file [filename="+file.toURI()+"]");
+                file.createNewFile();
+                rules.add(new FileOutputCapture(file, capturedStream));
+            } catch (IOException e) {
+                throw new RuntimeException("Could not create a file [filename="+file.toPath()+"]");
+            }
         } else {
             rules.add(new StreamOutputCapture(capturedStream));
             rules.add(new CaptureVerifier(file, capturedStream));
