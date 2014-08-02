@@ -2,7 +2,6 @@ package com.github.junitcharacterization.builders;
 
 import org.junit.rules.TemporaryFolder;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class TestFileBuilder {
 
     public File build() throws IOException {
         File file = folder.newFile();
-        final BufferedWriter out = new BufferedWriter(new FileWriter(file));
+        final FileWriter out = new FileWriter(file);
         for (String s: content) {
             out.write(s);
         }
