@@ -79,6 +79,18 @@ TIP: Using https://github.com/Pragmatists/JUnitParams/[junitparams] is not essen
  nonetheless, a reliable characterization tests makes sense when a significant
  amount of data is pushed through the class in testing
 
+To use JUnitParams, additional dependency is required
+
+[source,xml]
+----
+<dependency>
+    <groupId>pl.pragmatists</groupId>
+    <artifactId>JUnitParams</artifactId>
+    <version>1.0.2</version>
+    <scope>test</scope>
+</dependency>
+----
+
 Sample CSV file with parameters for this particular example looks as follows
 ----
 first parameter
