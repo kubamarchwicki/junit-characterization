@@ -35,7 +35,6 @@ later on re-test; to see if the refcatoring impacted the actual output.
 [source, java]
 ----
 
-@RunWith(JUnitParamsRunner.class)
 public class BusinessClassTest {
 
     @ClassRule //<1>
@@ -44,7 +43,6 @@ public class BusinessClassTest {
     private BusinessClass service = new BusinessClass();
 
     @Test
-    @FileParameters("classpath:tst.csv")  //<2>
     public void just_run_the_method(String parameter) {
         service.businessMethod(parameter);
 
@@ -52,11 +50,11 @@ public class BusinessClassTest {
 }
 ----
 <1> Invoking characterization rule
-<2> This is additional junit-params line.
 
 NOTE: The junit extension works only for `@ClassRule`; an output file that gets
 generated (or consumed for verification) is named after the classname. Hence running
-the CharacterizationRule with `@Rule` attribute doesn't make any sense at the moment.
+the CharacterizationRule with `@Rule` attribute makes only sense for one test method
+in the class.
 
 Initially, to create the master characteristics, the test needs running with
 `pinchpoint` property. This turns the rule into a recording mode, when a master
@@ -90,6 +88,29 @@ To use JUnitParams, additional dependency is required
     <scope>test</scope>
 </dependency>
 ----
+
+A modified example, with additional junit parameters, might looks as follows
+[source, java]
+----
+
+@RunWith(JUnitParamsRunner.class) //<1>
+public class BusinessClassTest {
+
+    @ClassRule
+    public static CharacterizationRule rule = new CharacterizationRule(BusinessClassTest.class);
+
+    private BusinessClass service = new BusinessClass();
+
+    @Test
+    @FileParameters("classpath:tst.csv")  //<2>
+    public void just_run_the_method(String parameter) {
+        service.businessMethod(parameter);
+
+    }
+}
+----
+<1> Runner for parametrized tests
+<2> File based paramters - please reffer to https://github.com/Pragmatists/junitparams/wiki/Quickstart[JunitParams wiki] for more details
 
 Sample CSV file with parameters for this particular example looks as follows
 ----
