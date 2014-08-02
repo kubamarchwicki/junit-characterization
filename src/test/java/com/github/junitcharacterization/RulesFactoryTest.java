@@ -1,5 +1,6 @@
 package com.github.junitcharacterization;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -15,6 +16,11 @@ public class RulesFactoryTest {
 
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
+
+    @Before
+    public void clearSystemProperties() {
+        System.clearProperty(RulesFactory.ENV_NAME_FOR_RECORDING);
+    }
 
     @Test
     public void should_return_master_creation_rule() throws IOException {
@@ -40,4 +46,6 @@ public class RulesFactoryTest {
         assertThat(rules.get(0)).isInstanceOf(StreamOutputCapture.class);
         assertThat(rules.get(1)).isInstanceOf(CaptureVerifier.class);
     }
+
 }
+
