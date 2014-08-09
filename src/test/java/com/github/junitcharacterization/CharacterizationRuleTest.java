@@ -62,7 +62,7 @@ public class CharacterizationRuleTest {
         assertThat(testResult(BusinessClassTest.class), isSuccessful());
         org.assertj.core.api.Assertions.assertThat(new File(BASE_FOLDER + FILENAME))
                 .exists()
-                .hasContent("param = " + TEST_METHOD_PARAM + "\nafter split = first");
+                .hasContent("param = " + TEST_METHOD_PARAM + System.lineSeparator() + "after split = first");
     }
 
     @Test
@@ -76,7 +76,7 @@ public class CharacterizationRuleTest {
     public void should_throw_comparison_error() throws IOException {
         prepareMasterFile("param = " + TEST_METHOD_PARAM, "after split = first", "Additional Line");
 
-        assertThat(testResult(BusinessClassTest.class), hasFailureContaining("DeleteDelta, position: 2, lines: [Additional Line]"));
+        assertThat(testResult(BusinessClassTest.class), hasFailureContaining("DeleteDelta, position: 2, lines: [Additional Line"));
     }
 
     private void prepareMasterFile(String... lines) throws IOException {
@@ -86,7 +86,7 @@ public class CharacterizationRuleTest {
         FileWriter out = new FileWriter(f);
         for(String s: lines) {
             out.write(s);
-            out.write("\n");
+            out.write(System.lineSeparator());
         }
         out.close();
     }

@@ -25,7 +25,7 @@ public class ReadLines {
     }
 
     private static List<String> fromInputStream(InputStream stream) {
-        Scanner s = new Scanner(stream).useDelimiter("\n");
+        Scanner s = new Scanner(stream).useDelimiter(System.lineSeparator());
         List<String> list = new ArrayList<>();
         while (s.hasNext()) {
             list.add(s.next());

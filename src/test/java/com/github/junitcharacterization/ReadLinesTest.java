@@ -41,9 +41,9 @@ public class ReadLinesTest {
     public void should_return_three_elements_from_file() throws IOException {
         //given
         final File file = aFile(folder)
-                .withContent("first line\n")
-                .withContent("second line\n")
-                .withContent("third line\n")
+                .withContent("first line" + System.lineSeparator())
+                .withContent("second line" + System.lineSeparator())
+                .withContent("third line" + System.lineSeparator())
                 .build();
 
         //when
@@ -60,9 +60,9 @@ public class ReadLinesTest {
     public void should_return_three_elements_from_stream() throws IOException {
         //given
         final ByteArrayOutputStream baos = aStream()
-                .withContent("first\n")
-                .withContent("second\n")
-                .withContent("third\n").build();
+                .withContent("first" + System.lineSeparator())
+                .withContent("second" + System.lineSeparator())
+                .withContent("third" + System.lineSeparator()).build();
 
         //when
         List<String> strings = ReadLines.fromStream(baos);
