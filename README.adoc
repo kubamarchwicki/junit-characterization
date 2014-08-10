@@ -2,6 +2,8 @@
 
 A simple utility for JUnit 4.6+ (`@Rules` required) for working with *characterization tests*
 
+Current status: image:https://travis-ci.org/kubamarchwicki/junit-characterization.svg?branch=master["Build Status", link="https://travis-ci.org/kubamarchwicki/junit-characterization"]
+
 == Characterization tests
 
 A characterization test is a means to describe (characterize) the actual
