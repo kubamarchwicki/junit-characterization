@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 
+import static com.github.junitcharacterization.CharacterizationRule.aRuleFor;
 import static org.junit.Assert.*;
 import static org.junit.experimental.results.PrintableResult.*;
 import static org.junit.experimental.results.ResultMatchers.*;
@@ -31,7 +32,9 @@ public class CharacterizationRuleTest {
 
     public static class BusinessClassTest {
         @Rule
-        public CharacterizationRule rule = new CharacterizationRule(BusinessClassTest.class);
+        public CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
+                .inFolder(BASE_FOLDER)
+                .build();
 
         private BusinessClass service = new BusinessClass();
 
