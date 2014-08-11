@@ -40,7 +40,8 @@ later on re-test; to see if the refcatoring impacted the actual output.
 public class BusinessClassTest {
 
     @ClassRule //<1>
-    public static CharacterizationRule rule = new CharacterizationRule(BusinessClassTest.class);
+    public CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
+                .build();
 
     private BusinessClass service = new BusinessClass();
 
@@ -99,7 +100,8 @@ A modified example, with additional junit parameters, might looks as follows
 public class BusinessClassTest {
 
     @ClassRule
-    public static CharacterizationRule rule = new CharacterizationRule(BusinessClassTest.class);
+    public CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
+                .build();
 
     private BusinessClass service = new BusinessClass();
 
