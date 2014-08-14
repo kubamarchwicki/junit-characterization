@@ -14,11 +14,11 @@ import static org.junit.Assert.*;
 import static org.junit.experimental.results.PrintableResult.*;
 import static org.junit.experimental.results.ResultMatchers.*;
 
-public class CharacterizationRuleTest {
+public class CharacterizationRuleCustomFolderTest {
 
     final static String TEST_METHOD_PARAM = "first parameter";
-    final static String BASE_FOLDER = CharacterizationRuleTest.class.getResource("/").getFile();
-    final static String FILENAME = "com.github.junitcharacterization.CharacterizationRuleTest.BusinessClassTest.txt";
+    final static String BASE_FOLDER = CharacterizationRuleCustomFolderTest.class.getResource("/").getFile();
+    final static String FILENAME = "com.github.junitcharacterization.CharacterizationRuleCustomFolderTest.BusinessClassTest.txt";
 
     public static class BusinessClass {
 
@@ -40,7 +40,7 @@ public class CharacterizationRuleTest {
 
         @Test
         public void just_run_the_method() {
-            service.businessMethod(CharacterizationRuleTest.TEST_METHOD_PARAM);
+            service.businessMethod(CharacterizationRuleCustomFolderTest.TEST_METHOD_PARAM);
 
         }
     }
