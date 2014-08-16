@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 
 public class FileOutputCapture extends ExternalResource {
 
@@ -30,7 +31,7 @@ public class FileOutputCapture extends ExternalResource {
     protected void after() {
         System.setOut(original);
         try {
-            Files.write(outputFile.toPath(), capturedStream.toByteArray());
+            Files.write(outputFile.toPath(), capturedStream.toByteArray(), StandardOpenOption.APPEND);
         } catch (IOException e) {
             throw new RuntimeException("File write failed! ", e);
         }

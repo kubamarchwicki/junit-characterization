@@ -1,6 +1,7 @@
 package com.github.junitcharacterization;
 
 import com.github.junitcharacterization.rules.CaptureVerifier;
+import com.github.junitcharacterization.rules.FileCreateRule;
 import com.github.junitcharacterization.rules.FileDeleteRule;
 import com.github.junitcharacterization.rules.FileOutputCapture;
 import com.github.junitcharacterization.rules.StreamOutputCapture;
@@ -17,22 +18,27 @@ public class CharacterizationBuilder {
     final public static String ENV_NAME_FOR_RECORDING = "pinchpoint";
     final private static String DEFAULT_FOLDER = System.getProperty("java.io.tmpdir");
     final private String DEFAULT_FILENAME;
-    private List<TestRule> rules = new ArrayList<>();
+    final private RulesBuilder rulesBuilder;
 
     public CharacterizationBuilder(Class<?> clazz) {
         this.DEFAULT_FILENAME = clazz.getCanonicalName() + ".txt";
-        this.rules = withRules().build();
+        this.rulesBuilder = withDefaultRules();
     }
 
-    public RulesBuilder withRules() {
+    private RulesBuilder withDefaultRules() {
         return new RulesBuilder()
-                .clearOutput()
+                .clearOutputBeforeCapture()
                 .inFolder(DEFAULT_FOLDER)
                 .withFilename(DEFAULT_FILENAME);
     }
 
+    public CharacterizationBuilder appendMode() {
+        this.rulesBuilder.appendToExistingFile();
+        return this;
+    }
+
     public CharacterizationRule build() {
-        return new CharacterizationRule(rules);
+        return new CharacterizationRule(rulesBuilder.build());
     }
 
     public static class RulesBuilder {
@@ -53,12 +59,12 @@ public class CharacterizationBuilder {
             return this;
         }
 
-        public RulesBuilder append() {
+        public RulesBuilder appendToExistingFile() {
             this.deleteExistingFile = false;
             return this;
         }
 
-        public RulesBuilder clearOutput() {
+        public RulesBuilder clearOutputBeforeCapture() {
             this.deleteExistingFile = true;
             return this;
         }
@@ -78,10 +84,7 @@ public class CharacterizationBuilder {
             String env = System.getProperty(ENV_NAME_FOR_RECORDING);
             if (env != null) {
                 log.warning("RECORDING MODE! Output to file [filename="+outputFile.toURI()+"]");
-
-                if (deleteExistingFile) {
-                    rules.add(new FileDeleteRule(outputFile));
-                }
+                rules.add(fileHandlingModeRule(outputFile));
                 rules.add(new FileOutputCapture(outputFile, capturedStream));
             } else {
                 rules.add(new StreamOutputCapture(capturedStream));
@@ -89,6 +92,14 @@ public class CharacterizationBuilder {
             }
 
             return rules;
+        }
+
+        private TestRule fileHandlingModeRule(File outputFile) {
+            if (deleteExistingFile) {
+                return new FileDeleteRule(outputFile);
+            } else {
+                return new FileCreateRule(outputFile);
+            }
         }
     }
 }

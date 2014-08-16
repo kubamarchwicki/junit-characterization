@@ -32,7 +32,7 @@ public class RulesBuilderTest {
 
         //when
         List<TestRule> rules = new CharacterizationBuilder.RulesBuilder()
-                .clearOutput()
+                .clearOutputBeforeCapture()
                 .inFolder(folder.getRoot().toString())
                 .withFilename("foo.txt")
                 .build();
