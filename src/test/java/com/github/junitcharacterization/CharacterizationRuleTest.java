@@ -9,16 +9,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static com.github.junitcharacterization.CharacterizationRule.aRuleFor;
+import static com.github.junitcharacterization.CharacterizationRule.*;
 import static org.junit.Assert.*;
 import static org.junit.experimental.results.PrintableResult.*;
 import static org.junit.experimental.results.ResultMatchers.*;
 
-public class CharacterizationRuleCustomFolderTest {
+public class CharacterizationRuleTest {
 
     final static String TEST_METHOD_PARAM = "first parameter";
-    final static String BASE_FOLDER = CharacterizationRuleCustomFolderTest.class.getResource("/").getFile();
-    final static String FILENAME = "com.github.junitcharacterization.CharacterizationRuleCustomFolderTest.BusinessClassTest.txt";
+    final static String BASE_FOLDER = System.getProperty("java.io.tmpdir") + File.separator;
+    final static String FILENAME = "com.github.junitcharacterization.CharacterizationRuleTest.BusinessClassTest.txt";
 
     public static class BusinessClass {
 
@@ -33,14 +33,13 @@ public class CharacterizationRuleCustomFolderTest {
     public static class BusinessClassTest {
         @Rule
         public CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
-                .inFolder(BASE_FOLDER)
                 .build();
 
         private BusinessClass service = new BusinessClass();
 
         @Test
         public void just_run_the_method() {
-            service.businessMethod(CharacterizationRuleCustomFolderTest.TEST_METHOD_PARAM);
+            service.businessMethod(CharacterizationRuleTest.TEST_METHOD_PARAM);
 
         }
     }
