@@ -33,7 +33,9 @@ public class CharacterizationRuleAppendModeTest {
     public static class BusinessClassTest {
         @Rule
         public CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
-                .appendMode()
+                    .withRules()
+                        .appendToExistingFile()
+                        .up()
                 .build();
 
         private BusinessClass service = new BusinessClass();

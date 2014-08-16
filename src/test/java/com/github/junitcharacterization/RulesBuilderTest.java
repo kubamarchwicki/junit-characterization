@@ -1,5 +1,6 @@
 package com.github.junitcharacterization;
 
+import com.github.junitcharacterization.builder.SimpleRulesBuilder;
 import com.github.junitcharacterization.rules.CaptureVerifier;
 import com.github.junitcharacterization.rules.FileDeleteRule;
 import com.github.junitcharacterization.rules.FileOutputCapture;
@@ -31,7 +32,7 @@ public class RulesBuilderTest {
         System.setProperty(CharacterizationBuilder.ENV_NAME_FOR_RECORDING, "true");
 
         //when
-        List<TestRule> rules = new CharacterizationBuilder.RulesBuilder()
+        List<TestRule> rules = new SimpleRulesBuilder()
                 .clearOutputBeforeCapture()
                 .inFolder(folder.getRoot().toString())
                 .withFilename("foo.txt")
@@ -47,7 +48,7 @@ public class RulesBuilderTest {
     @Test
     public void should_return_standard_rules() throws IOException {
         //when
-        List<TestRule> rules = new CharacterizationBuilder.RulesBuilder()
+        List<TestRule> rules = new SimpleRulesBuilder()
                 .inFolder(folder.getRoot().toString())
                 .withFilename("foo.txt")
                 .build();
@@ -60,13 +61,13 @@ public class RulesBuilderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void should_throw_assert_exceptions_on_empty_folder() {
-        new CharacterizationBuilder.RulesBuilder()
+        new SimpleRulesBuilder()
                 .build();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void should_throw_assert_exceptions_on_empty_filename() {
-        new CharacterizationBuilder.RulesBuilder()
+        new SimpleRulesBuilder()
                 .inFolder(folder.getRoot().toString())
                 .build();
     }
