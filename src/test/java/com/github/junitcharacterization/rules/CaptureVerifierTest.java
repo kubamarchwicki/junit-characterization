@@ -1,4 +1,4 @@
-package com.github.junitcharacterization;
+package com.github.junitcharacterization.rules;
 
 import org.junit.Rule;
 import org.junit.Test;

@@ -1,31 +1,22 @@
-package com.github.junitcharacterization;
+package com.github.junitcharacterization.rules;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class FileOutputCaptureTest {
+public class StreamOutputCaptureTest {
 
-    private FileOutputCapture capture;
-
-    @Rule
-    public TemporaryFolder folder = new TemporaryFolder();
+    private StreamOutputCapture capture;
 
     @Test
     public void should_capture_output() throws Throwable {
         //given
         final ByteArrayOutputStream capturedStream = new ByteArrayOutputStream();
         final PrintStream originalStream = System.out;
-        final File outputFile = folder.newFile();
-        capture = new FileOutputCapture(outputFile, capturedStream);
+        capture = new StreamOutputCapture(capturedStream);
 
         //when
         capture.before();
@@ -39,10 +30,6 @@ public class FileOutputCaptureTest {
         assertThat(System.out)
                 .isSameAs(originalStream);
         assertThat(capturedStream.toString())
-                .isNotEmpty()
-                .contains("first output line")
-                .contains("second output line");
-        assertThat(Files.readAllLines(outputFile.toPath(), StandardCharsets.UTF_8))
                 .isNotEmpty()
                 .contains("first output line")
                 .contains("second output line");

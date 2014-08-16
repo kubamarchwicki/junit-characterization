@@ -46,7 +46,7 @@ public class CharacterizationRuleTest {
 
     @Before
     public void delete_master_data_files() throws IOException, InterruptedException {
-        System.clearProperty(RulesFactory.ENV_NAME_FOR_RECORDING);
+        System.clearProperty(CharacterizationBuilder.ENV_NAME_FOR_RECORDING);
 
         File outputFile = new File(BASE_FOLDER + FILENAME);
         Files.deleteIfExists(outputFile.toPath());
@@ -59,7 +59,7 @@ public class CharacterizationRuleTest {
 
     @Test
     public void should_create_master_output_file() {
-        System.setProperty(RulesFactory.ENV_NAME_FOR_RECORDING, "true");
+        System.setProperty(CharacterizationBuilder.ENV_NAME_FOR_RECORDING, "true");
 
         assertThat(testResult(BusinessClassTest.class), isSuccessful());
         org.assertj.core.api.Assertions.assertThat(new File(BASE_FOLDER + FILENAME))

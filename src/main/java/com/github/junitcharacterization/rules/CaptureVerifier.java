@@ -1,5 +1,6 @@
-package com.github.junitcharacterization;
+package com.github.junitcharacterization.rules;
 
+import com.github.junitcharacterization.ReadLines;
 import difflib.DiffUtils;
 import difflib.Patch;
 import org.junit.rules.Verifier;
