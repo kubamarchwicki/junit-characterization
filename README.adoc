@@ -39,8 +39,8 @@ later on re-test; to see if the refcatoring impacted the actual output.
 
 public class BusinessClassTest {
 
-    @ClassRule //<1>
-    public CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
+    @ClassRule                  //<1>
+    public static CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
                 .build();
 
     private BusinessClass service = new BusinessClass();
@@ -71,6 +71,56 @@ mvn -Dpinchpoint=true -Dtest=BusinessClassTest test
 The default output folder is `target/test-classes`; the file name is the test
 class cannonical name, followed with a `txt` extension.
 
+=== Configuration
+
+JUnit Characterization Rule comes with a handy builder for more extensive configuration.
+The initial config, as shown in the example is a shorthand and is based on some
+default values. Whenever this code is used:
+
+[source, java]
+----
+CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
+            .build();
+----
+
+what happens under the hood is more or less as follows:
+
+[source, java]
+----
+String DEFAULT_FOLDER = System.getProperty("java.io.tmpdir");
+String DEFAULT_FILENAME = clazz.getCanonicalName() + ".txt";
+
+CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
+              .withRules()
+                .clearOutputBeforeCapture()      //<1>
+                .inFolder(DEFAULT_FOLDER)        //<2>
+                .withFilename(DEFAULT_FILENAME)  //<3>
+              .up()
+            .build();
+----
+<1> This directive sets the rule truncate a master file (if exists) so that each
+log of each rule invocation (each method for `@Rule` or each test for `@ClassRule`).
+<2> Location of the log file.
+<3> Log file name.
+
+I can imagine a situation when you might want to log all output to a single
+(existing) file in a custom location. Than the configuration might look as follows:
+
+
+[source, java]
+----
+CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
+              .withRules()
+                .appendToExistingFile()
+                .inFolder("/my/custom/location/")
+                .withFilename("foo.txt")
+              .up()
+            .build();
+----
+
+The appending mode comes especially useful when you use multiple parameters for testing 
+(like the `@JUnitParams`) described in the next section.
+
 === JUnit Patams
 
 JUnitParams project adds a new runner to JUnit and provides much easier and
@@ -96,17 +146,17 @@ A modified example, with additional junit parameters, might looks as follows
 [source, java]
 ----
 
-@RunWith(JUnitParamsRunner.class) //<1>
+@RunWith(JUnitParamsRunner.class)           //<1>
 public class BusinessClassTest {
 
     @ClassRule
-    public CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
+    public static CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
                 .build();
 
     private BusinessClass service = new BusinessClass();
 
     @Test
-    @FileParameters("classpath:tst.csv")  //<2>
+    @FileParameters("classpath:tst.csv")    //<2>
     public void just_run_the_method(String parameter) {
         service.businessMethod(parameter);
 
