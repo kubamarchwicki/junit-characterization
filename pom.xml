@@ -7,6 +7,33 @@
     <packaging>jar</packaging>
     <version>0.3-SNAPSHOT</version>
 
+    <name>JUnit characterization test utility</name>
+    <description>Tiny utility library which leverages JUnit @Rules in order to build and run characterization tests for legacy applications </description>
+    <url>https://github.com/kubamarchwicki/junit-characterization</url>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Jakub Marchwicki</name>
+            <email>kuba.marchwicki@gmail.com</email>
+            <organization>108 creations</organization>
+            <organizationUrl>http://marchwicki.pl</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/kubamarchwicki/junit-characterization.git</connection>
+        <developerConnection>scm:git:git@github.com:kubamarchwicki/junit-characterization.git</developerConnection>
+        <url>https://github.com/kubamarchwicki/junit-characterization</url>
+        <tag>HEAD</tag>
+    </scm>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -70,13 +97,6 @@
             </build>
         </profile>
     </profiles>
-
-    <scm>
-        <connection>scm:git:https://github.com/kubamarchwicki/junit-characterization.git</connection>
-        <developerConnection>scm:git:git@github.com:kubamarchwicki/junit-characterization.git</developerConnection>
-        <url>https://github.com/kubamarchwicki/junit-characterization</url>
-        <tag>HEAD</tag>
-    </scm>
 
     <distributionManagement>
         <repository>
