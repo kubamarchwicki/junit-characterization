@@ -1,7 +1,8 @@
 package com.github.junitcharacterization;
 
+import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
+import org.junit.ClassRule;
 import org.junit.Test;
 
 import java.io.File;
@@ -31,8 +32,8 @@ public class CharacterizationRuleTest {
     }
 
     public static class BusinessClassTest {
-        @Rule
-        public CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
+        @ClassRule
+        public static CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
                 .build();
 
         private BusinessClass service = new BusinessClass();
@@ -44,7 +45,7 @@ public class CharacterizationRuleTest {
         }
     }
 
-    @Before
+    @Before @After
     public void delete_master_data_files() throws IOException, InterruptedException {
         System.clearProperty(CharacterizationBuilder.ENV_NAME_FOR_RECORDING);
 
@@ -58,30 +59,13 @@ public class CharacterizationRuleTest {
     }
 
     @Test
-    public void should_create_master_output_file() {
-        System.setProperty(CharacterizationBuilder.ENV_NAME_FOR_RECORDING, "true");
-
-        assertThat(testResult(BusinessClassTest.class), isSuccessful());
-        org.assertj.core.api.Assertions.assertThat(new File(BASE_FOLDER + FILENAME))
-                .exists()
-                .hasContent("param = " + TEST_METHOD_PARAM + System.lineSeparator() + "after split = first");
-    }
-
-    @Test
-    public void should_successfully_compare() throws IOException {
-        prepareMasterFile("param = " + TEST_METHOD_PARAM, "after split = first");
-
-        assertThat(testResult(BusinessClassTest.class), isSuccessful());
-    }
-
-    @Test
     public void should_throw_comparison_error() throws IOException {
         prepareMasterFile("param = " + TEST_METHOD_PARAM, "after split = first", "Additional Line");
 
         assertThat(testResult(BusinessClassTest.class), hasFailureContaining("DeleteDelta, position: 2, lines: [Additional Line"));
     }
 
-    private void prepareMasterFile(String... lines) throws IOException {
+    protected void prepareMasterFile(String... lines) throws IOException {
         File f = new File(BASE_FOLDER + FILENAME);
         f.createNewFile();
 

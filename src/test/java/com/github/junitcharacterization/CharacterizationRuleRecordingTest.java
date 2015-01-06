@@ -14,12 +14,11 @@ import static org.junit.Assert.*;
 import static org.junit.experimental.results.PrintableResult.*;
 import static org.junit.experimental.results.ResultMatchers.*;
 
-public class CharacterizationRuleAppendModeTest {
+public class CharacterizationRuleRecordingTest {
 
-    final static String FIRST_METHOD_PARAM = "first parameter";
-    final static String SECOND_METHOD_PARAM = "second parameter";
+    final static String TEST_METHOD_PARAM = "first parameter";
     final static String BASE_FOLDER = System.getProperty("java.io.tmpdir") + File.separator;
-    final static String FILENAME = "com.github.junitcharacterization.CharacterizationRuleAppendModeTest.BusinessClassTest.txt";
+    final static String FILENAME = "com.github.junitcharacterization.CharacterizationRuleRecordingTest.BusinessClassTest.txt";
 
     public static class BusinessClass {
 
@@ -34,21 +33,14 @@ public class CharacterizationRuleAppendModeTest {
     public static class BusinessClassTest {
         @ClassRule
         public static CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
-                    .withRules()
-                        .appendToExistingFile()
-                        .up()
                 .build();
 
         private BusinessClass service = new BusinessClass();
 
         @Test
         public void just_run_the_method() {
-            service.businessMethod(CharacterizationRuleAppendModeTest.FIRST_METHOD_PARAM);
-        }
+            service.businessMethod(CharacterizationRuleRecordingTest.TEST_METHOD_PARAM);
 
-        @Test
-        public void a_second_test_method() {
-            service.businessMethod(CharacterizationRuleAppendModeTest.SECOND_METHOD_PARAM);
         }
     }
 
@@ -67,10 +59,7 @@ public class CharacterizationRuleAppendModeTest {
         assertThat(testResult(BusinessClassTest.class), isSuccessful());
         org.assertj.core.api.Assertions.assertThat(new File(BASE_FOLDER + FILENAME))
                 .exists()
-                .hasContent("param = " + FIRST_METHOD_PARAM +
-                        System.lineSeparator() + "after split = first" +
-                        System.lineSeparator() + "param = " + SECOND_METHOD_PARAM +
-                        System.lineSeparator() + "after split = second");
+                .hasContent("param = " + TEST_METHOD_PARAM + System.lineSeparator() + "after split = first");
     }
 
 }
