@@ -59,8 +59,8 @@ public class SimpleRulesBuilder implements RulesBuilder<SimpleRulesBuilder> {
         final ByteArrayOutputStream capturedStream = new ByteArrayOutputStream();
         final File outputFile = new File(folder, filename);
 
-        String env = System.getProperty(CharacterizationBuilder.ENV_NAME_FOR_RECORDING);
-        if (env != null) {
+
+        if (isRecording()) {
             log.warning("RECORDING MODE! Output to file [filename="+outputFile.toURI()+"]");
             rules.add(fileHandlingModeRule(outputFile));
             rules.add(new FileOutputCapture(outputFile, capturedStream));
@@ -70,6 +70,11 @@ public class SimpleRulesBuilder implements RulesBuilder<SimpleRulesBuilder> {
         }
 
         return rules;
+    }
+
+    private boolean isRecording() {
+        String env = System.getProperty(CharacterizationBuilder.ENV_NAME_FOR_RECORDING);
+        return (env != null);
     }
 
     private TestRule fileHandlingModeRule(File outputFile) {
