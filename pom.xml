@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>pl.marchwicki</groupId>
@@ -8,7 +9,9 @@
     <version>0.3-SNAPSHOT</version>
 
     <name>JUnit characterization test utility</name>
-    <description>Tiny utility library which leverages JUnit @Rules in order to build and run characterization tests for legacy applications </description>
+    <description>Tiny utility library which leverages JUnit @Rules in order to build and run characterization tests for
+        legacy applications
+    </description>
     <url>https://github.com/kubamarchwicki/junit-characterization</url>
 
     <licenses>
@@ -87,6 +90,17 @@
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>
