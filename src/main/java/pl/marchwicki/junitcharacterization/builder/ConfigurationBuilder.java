@@ -4,7 +4,7 @@ import org.junit.rules.TestRule;
 
 import java.util.List;
 
-public interface RulesBuilder<T> {
+public interface ConfigurationBuilder<T> {
     T inFolder(String folder);
 
     T withFilename(String filename);

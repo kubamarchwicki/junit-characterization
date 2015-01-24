@@ -5,36 +5,36 @@ import org.junit.rules.TestRule;
 
 import java.util.List;
 
-public class WrappedRulesBuilder implements RulesBuilder<WrappedRulesBuilder> {
+public class AdvancedConfigurationBuilder implements ConfigurationBuilder<AdvancedConfigurationBuilder> {
 
     private final CharacterizationBuilder parent;
-    private final RulesBuilder<SimpleRulesBuilder> builder;
+    private final ConfigurationBuilder<BasicConfigurationBuilder> builder;
 
-    public WrappedRulesBuilder(CharacterizationBuilder characterizationBuilder, RulesBuilder builder) {
+    public AdvancedConfigurationBuilder(CharacterizationBuilder characterizationBuilder, ConfigurationBuilder builder) {
         this.parent = characterizationBuilder;
         this.builder = builder;
     }
 
     @Override
-    public WrappedRulesBuilder inFolder(String folder) {
+    public AdvancedConfigurationBuilder inFolder(String folder) {
         builder.inFolder(folder);
         return this;
     }
 
     @Override
-    public WrappedRulesBuilder withFilename(String filename) {
+    public AdvancedConfigurationBuilder withFilename(String filename) {
         builder.withFilename(filename);
         return this;
     }
 
     @Override
-    public WrappedRulesBuilder appendToExistingFile() {
+    public AdvancedConfigurationBuilder appendToExistingFile() {
         builder.appendToExistingFile();
         return this;
     }
 
     @Override
-    public WrappedRulesBuilder clearOutputBeforeCapture() {
+    public AdvancedConfigurationBuilder clearOutputBeforeCapture() {
         builder.clearOutputBeforeCapture();
         return this;
     }

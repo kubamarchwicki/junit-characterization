@@ -1,7 +1,6 @@
 package pl.marchwicki.junitcharacterization;
 
-import pl.marchwicki.junitcharacterization.CharacterizationBuilder;
-import pl.marchwicki.junitcharacterization.builder.SimpleRulesBuilder;
+import pl.marchwicki.junitcharacterization.builder.BasicConfigurationBuilder;
 import pl.marchwicki.junitcharacterization.rules.CaptureVerifier;
 import pl.marchwicki.junitcharacterization.rules.FileDeleteRule;
 import pl.marchwicki.junitcharacterization.rules.FileOutputCapture;
@@ -33,7 +32,7 @@ public class RulesBuilderTest {
         System.setProperty(CharacterizationBuilder.ENV_NAME_FOR_RECORDING, "true");
 
         //when
-        List<TestRule> rules = new SimpleRulesBuilder()
+        List<TestRule> rules = new BasicConfigurationBuilder()
                 .clearOutputBeforeCapture()
                 .inFolder(folder.getRoot().toString())
                 .withFilename("foo.txt")
@@ -49,7 +48,7 @@ public class RulesBuilderTest {
     @Test
     public void should_return_standard_rules() throws IOException {
         //when
-        List<TestRule> rules = new SimpleRulesBuilder()
+        List<TestRule> rules = new BasicConfigurationBuilder()
                 .inFolder(folder.getRoot().toString())
                 .withFilename("foo.txt")
                 .build();
@@ -62,13 +61,13 @@ public class RulesBuilderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void should_throw_assert_exceptions_on_empty_folder() {
-        new SimpleRulesBuilder()
+        new BasicConfigurationBuilder()
                 .build();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void should_throw_assert_exceptions_on_empty_filename() {
-        new SimpleRulesBuilder()
+        new BasicConfigurationBuilder()
                 .inFolder(folder.getRoot().toString())
                 .build();
     }

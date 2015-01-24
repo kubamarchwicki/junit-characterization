@@ -14,34 +14,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class SimpleRulesBuilder implements RulesBuilder<SimpleRulesBuilder> {
+public class BasicConfigurationBuilder implements ConfigurationBuilder<BasicConfigurationBuilder> {
 
-    final private static Logger log = Logger.getLogger(SimpleRulesBuilder.class.getSimpleName());
+    final private static Logger log = Logger.getLogger(BasicConfigurationBuilder.class.getSimpleName());
     private List<TestRule> rules = new ArrayList<>();
     private File folder;
     private String filename;
     private Boolean deleteExistingFile;
 
     @Override
-    public SimpleRulesBuilder inFolder(String folder) {
+    public BasicConfigurationBuilder inFolder(String folder) {
         this.folder = new File(folder);
         return this;
     }
 
     @Override
-    public SimpleRulesBuilder withFilename(String filename) {
+    public BasicConfigurationBuilder withFilename(String filename) {
         this.filename = filename;
         return this;
     }
 
     @Override
-    public SimpleRulesBuilder appendToExistingFile() {
+    public BasicConfigurationBuilder appendToExistingFile() {
         this.deleteExistingFile = false;
         return this;
     }
 
     @Override
-    public SimpleRulesBuilder clearOutputBeforeCapture() {
+    public BasicConfigurationBuilder clearOutputBeforeCapture() {
         this.deleteExistingFile = true;
         return this;
     }
