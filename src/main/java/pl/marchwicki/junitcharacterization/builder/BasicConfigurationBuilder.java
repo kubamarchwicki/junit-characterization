@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 public class BasicConfigurationBuilder implements ConfigurationBuilder<BasicConfigurationBuilder> {
 
     final private static Logger log = Logger.getLogger(BasicConfigurationBuilder.class.getSimpleName());
-    private List<TestRule> rules = new ArrayList<>();
     private File folder;
     private String filename;
     private Boolean deleteExistingFile;
@@ -59,7 +58,7 @@ public class BasicConfigurationBuilder implements ConfigurationBuilder<BasicConf
         final ByteArrayOutputStream capturedStream = new ByteArrayOutputStream();
         final File outputFile = new File(folder, filename);
 
-
+        final List<TestRule> rules = new ArrayList<>();
         if (isRecording()) {
             log.warning("RECORDING MODE! Output to file [filename="+outputFile.toURI()+"]");
             rules.add(fileHandlingModeRule(outputFile));
