@@ -1,50 +1,48 @@
 package pl.marchwicki.junitcharacterization.builder;
 
 import pl.marchwicki.junitcharacterization.CharacterizationBuilder;
-import org.junit.rules.TestRule;
-
-import java.util.List;
+import pl.marchwicki.junitcharacterization.Configuration;
 
 public class AdvancedConfigurationBuilder implements ConfigurationBuilder<AdvancedConfigurationBuilder> {
 
-    private final CharacterizationBuilder parent;
-    private final ConfigurationBuilder<BasicConfigurationBuilder> builder;
+    private final CharacterizationBuilder builder;
+    private final ConfigurationBuilder<BasicConfigurationBuilder> parent;
 
     public AdvancedConfigurationBuilder(CharacterizationBuilder characterizationBuilder, ConfigurationBuilder builder) {
-        this.parent = characterizationBuilder;
-        this.builder = builder;
+        this.builder = characterizationBuilder;
+        this.parent = builder;
     }
 
     @Override
     public AdvancedConfigurationBuilder inFolder(String folder) {
-        builder.inFolder(folder);
+        parent.inFolder(folder);
         return this;
     }
 
     @Override
     public AdvancedConfigurationBuilder withFilename(String filename) {
-        builder.withFilename(filename);
+        parent.withFilename(filename);
         return this;
     }
 
     @Override
     public AdvancedConfigurationBuilder appendToExistingFile() {
-        builder.appendToExistingFile();
+        parent.appendToExistingFile();
         return this;
     }
 
     @Override
     public AdvancedConfigurationBuilder clearOutputBeforeCapture() {
-        builder.clearOutputBeforeCapture();
+        parent.clearOutputBeforeCapture();
         return this;
     }
 
     @Override
-    public List<TestRule> build() {
-        return builder.build();
+    public Configuration build() {
+        return parent.build();
     }
 
     public CharacterizationBuilder up() {
-        return parent;
+        return builder;
     }
 }

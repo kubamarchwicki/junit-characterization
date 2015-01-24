@@ -2,17 +2,17 @@ package pl.marchwicki.junitcharacterization;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static pl.marchwicki.junitcharacterization.CharacterizationRule.*;
 import static org.junit.Assert.*;
 import static org.junit.experimental.results.PrintableResult.*;
 import static org.junit.experimental.results.ResultMatchers.*;
+import static pl.marchwicki.junitcharacterization.CharacterizationRule.*;
 
 public class CharacterizationRuleRecordingTest {
 
@@ -31,8 +31,8 @@ public class CharacterizationRuleRecordingTest {
     }
 
     public static class BusinessClassTest {
-        @ClassRule
-        public static CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
+        @Rule
+        public CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
                 .build();
 
         private BusinessClass service = new BusinessClass();

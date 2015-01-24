@@ -54,10 +54,12 @@ public class BusinessClassTest {
 ----
 <1> Invoking characterization rule
 
-NOTE: The junit extension works best for `@ClassRule`; the behaviour gets configured and
-an output file that gets generated (or consumed for verification) is named after the
-classname. Hence running the CharacterizationRule with `@Rule` attribute makes only
-sense for one test method in the class.
+NOTE: The junit extension works both with `@ClassRule` as well as `@Rule` annotation; at runtime
+(when `org.junit.rules.TestRule.apply()` method is invoked) the behaviour gets configured and
+an output file that gets generated (or consumed for verification) - see the `appendToExistingFile`
+configuration flag. Hence running the CharacterizationRule with different annotations changes the
+behaviour of the whole test.
+The file is named after the classname (passed as the parameter).
 
 Initially, to create the master characteristics, the test needs running with
 `pinchpoint` property. This turns the rule into a recording mode, when a master

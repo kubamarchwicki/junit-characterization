@@ -32,13 +32,14 @@ public class RulesBuilderTest {
         System.setProperty(CharacterizationBuilder.ENV_NAME_FOR_RECORDING, "true");
 
         //when
-        List<TestRule> rules = new BasicConfigurationBuilder()
+        Configuration config = new BasicConfigurationBuilder()
                 .clearOutputBeforeCapture()
                 .inFolder(folder.getRoot().toString())
                 .withFilename("foo.txt")
                 .build();
 
         //then
+        List<TestRule> rules = config.prepareRules();
         assertThat(rules).hasSize(2);
         assertThat(rules.get(0)).isInstanceOf(FileDeleteRule.class);
         assertThat(rules.get(1)).isInstanceOf(FileOutputCapture.class);
@@ -48,12 +49,13 @@ public class RulesBuilderTest {
     @Test
     public void should_return_standard_rules() throws IOException {
         //when
-        List<TestRule> rules = new BasicConfigurationBuilder()
+        Configuration config = new BasicConfigurationBuilder()
                 .inFolder(folder.getRoot().toString())
                 .withFilename("foo.txt")
                 .build();
 
         //then
+        List<TestRule> rules = config.prepareRules();
         assertThat(rules).hasSize(2);
         assertThat(rules.get(0)).isInstanceOf(StreamOutputCapture.class);
         assertThat(rules.get(1)).isInstanceOf(CaptureVerifier.class);

@@ -1,8 +1,6 @@
 package pl.marchwicki.junitcharacterization.builder;
 
-import org.junit.rules.TestRule;
-
-import java.util.List;
+import pl.marchwicki.junitcharacterization.Configuration;
 
 public interface ConfigurationBuilder<T> {
     T inFolder(String folder);
@@ -13,5 +11,5 @@ public interface ConfigurationBuilder<T> {
 
     T clearOutputBeforeCapture();
 
-    List<TestRule> build();
+    Configuration build();
 }

@@ -9,11 +9,11 @@ public class CharacterizationBuilder {
     final public static String ENV_NAME_FOR_RECORDING = "pinchpoint";
     final private static String DEFAULT_FOLDER = System.getProperty("java.io.tmpdir");
     final private String DEFAULT_FILENAME;
-    final private AdvancedConfigurationBuilder rulesBuilder;
+    final private AdvancedConfigurationBuilder configurationBuilder;
 
     public CharacterizationBuilder(Class<?> clazz) {
         this.DEFAULT_FILENAME = clazz.getCanonicalName() + ".txt";
-        this.rulesBuilder = withDefaultRules();
+        this.configurationBuilder = withDefaultRules();
     }
 
     private AdvancedConfigurationBuilder withDefaultRules() {
@@ -25,11 +25,11 @@ public class CharacterizationBuilder {
     }
 
     public AdvancedConfigurationBuilder withRules() {
-        return this.rulesBuilder;
+        return this.configurationBuilder;
     }
 
     public CharacterizationRule build() {
-        return new CharacterizationRule(rulesBuilder.build());
+        return new CharacterizationRule(configurationBuilder.build());
     }
 
 }

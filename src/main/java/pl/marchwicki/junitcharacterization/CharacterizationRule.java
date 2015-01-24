@@ -4,14 +4,12 @@ import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
-import java.util.List;
-
 public class CharacterizationRule implements TestRule {
-    final private List<TestRule> rules;
+    final private Configuration configuration;
 
     @Override
     public Statement apply(Statement base, Description description) {
-        for (TestRule each : rules) {
+        for (TestRule each : configuration.prepareRules()) {
             base = each.apply(base, description);
         }
         return base;
@@ -21,9 +19,8 @@ public class CharacterizationRule implements TestRule {
         return new CharacterizationBuilder(clazz);
     }
 
-    public CharacterizationRule(List<TestRule> rules) {
-        this.rules = rules;
+    public CharacterizationRule(Configuration config) {
+        this.configuration = config;
     }
-
 }
 
