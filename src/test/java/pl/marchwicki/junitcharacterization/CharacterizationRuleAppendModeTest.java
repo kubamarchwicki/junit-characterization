@@ -2,7 +2,7 @@ package pl.marchwicki.junitcharacterization;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
+import org.junit.ClassRule;
 import org.junit.Test;
 
 import java.io.File;
@@ -32,8 +32,8 @@ public class CharacterizationRuleAppendModeTest {
     }
 
     public static class BusinessClassTest {
-        @Rule
-        public CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
+        @ClassRule
+        public static CharacterizationRule rule = aRuleFor(BusinessClassTest.class)
                     .withRules()
                         .appendToExistingFile()
                         .up()

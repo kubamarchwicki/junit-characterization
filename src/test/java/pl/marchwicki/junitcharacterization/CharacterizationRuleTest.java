@@ -54,6 +54,16 @@ public class CharacterizationRuleTest {
     }
 
     @Test
+    public void should_create_master_output_file() {
+        System.setProperty(CharacterizationBuilder.ENV_NAME_FOR_RECORDING, "true");
+
+        assertThat(testResult(BusinessClassTest.class), isSuccessful());
+        org.assertj.core.api.Assertions.assertThat(new File(BASE_FOLDER + FILENAME))
+                .exists()
+                .hasContent("param = " + TEST_METHOD_PARAM + System.lineSeparator() + "after split = first");
+    }
+
+    @Test
     public void should_throw_file_not_found_exception() {
         assertThat(testResult(BusinessClassTest.class), hasFailureContaining("java.io.FileNotFoundException"));
     }
@@ -63,6 +73,13 @@ public class CharacterizationRuleTest {
         prepareMasterFile("param = " + TEST_METHOD_PARAM, "after split = first", "Additional Line");
 
         assertThat(testResult(BusinessClassTest.class), hasFailureContaining("DeleteDelta, position: 2, lines: [Additional Line"));
+    }
+
+    @Test
+    public void should_successfully_compare() throws IOException {
+        prepareMasterFile("param = " + TEST_METHOD_PARAM, "after split = first");
+
+        assertThat(testResult(BusinessClassTest.class), isSuccessful());
     }
 
     protected void prepareMasterFile(String... lines) throws IOException {
