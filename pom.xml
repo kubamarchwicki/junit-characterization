@@ -5,7 +5,7 @@
     <groupId>pl.marchwicki</groupId>
     <artifactId>junit-characterization</artifactId>
     <packaging>jar</packaging>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.3</version>
 
     <name>JUnit characterization test utility</name>
     <description>Tiny utility library which leverages JUnit @Rules in order to build and run characterization tests for
@@ -33,7 +33,7 @@
         <connection>scm:git:https://github.com/kubamarchwicki/junit-characterization.git</connection>
         <developerConnection>scm:git:git@github.com:kubamarchwicki/junit-characterization.git</developerConnection>
         <url>https://github.com/kubamarchwicki/junit-characterization</url>
-        <tag>HEAD</tag>
+        <tag>junit-characterization-0.3</tag>
     </scm>
 
     <dependencies>
