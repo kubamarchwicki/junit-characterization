@@ -9,16 +9,17 @@ import pl.marchwicki.junitcharacterization.rules.StreamOutputCapture;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class Configuration {
     final private static Logger log = Logger.getLogger(Configuration.class.getSimpleName());
-    final private File outputFile;
+    final private Path outputFile;
     final private Boolean deleteExistingFile;
 
-    public Configuration(File outputFile, Boolean deleteExistingFile) {
+    public Configuration(Path outputFile, Boolean deleteExistingFile) {
         this.outputFile = outputFile;
         this.deleteExistingFile = deleteExistingFile;
     }
@@ -28,7 +29,7 @@ public class Configuration {
 
         final List<TestRule> rules = new ArrayList<>();
         if (isRecording()) {
-            log.warning("RECORDING MODE! Output to file [filename="+outputFile.toURI()+"]");
+            log.warning("RECORDING MODE! Output to file [filename="+outputFile+"]");
             rules.add(fileHandlingModeRule(outputFile));
             rules.add(new FileOutputCapture(outputFile, capturedStream));
         } else {
@@ -44,7 +45,7 @@ public class Configuration {
         return (env != null);
     }
 
-    private TestRule fileHandlingModeRule(File outputFile) {
+    private TestRule fileHandlingModeRule(Path outputFile) {
         if (deleteExistingFile) {
             return new FileDeleteRule(outputFile);
         } else {

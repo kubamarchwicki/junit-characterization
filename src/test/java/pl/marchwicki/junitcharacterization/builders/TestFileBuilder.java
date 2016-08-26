@@ -5,6 +5,9 @@ import org.junit.rules.TemporaryFolder;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,15 +29,9 @@ public class TestFileBuilder {
         return this;
     }
 
-    public File build() throws IOException {
-        File file = folder.newFile();
-        final FileWriter out = new FileWriter(file);
-        for (String s: content) {
-            out.write(s);
-        }
-
-        out.close();
-
+    public Path build() throws IOException {
+        Path file = folder.newFile().toPath();
+        Files.write(file, content, Charset.defaultCharset());
         return file;
     }
 

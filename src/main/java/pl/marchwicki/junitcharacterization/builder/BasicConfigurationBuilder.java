@@ -2,17 +2,18 @@ package pl.marchwicki.junitcharacterization.builder;
 
 import pl.marchwicki.junitcharacterization.Configuration;
 
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class BasicConfigurationBuilder implements ConfigurationBuilder<BasicConfigurationBuilder> {
 
-    private File folder;
+    private String folder;
     private String filename;
     private Boolean deleteExistingFile;
 
     @Override
     public BasicConfigurationBuilder inFolder(String folder) {
-        this.folder = new File(folder);
+        this.folder = folder;
         return this;
     }
 
@@ -44,7 +45,7 @@ public class BasicConfigurationBuilder implements ConfigurationBuilder<BasicConf
             throw new IllegalArgumentException("Filename cannot be empty");
         }
 
-        final File outputFile = new File(folder, filename);
+        Path outputFile = Paths.get(folder, filename);
         return new Configuration(outputFile, deleteExistingFile);
     }
 

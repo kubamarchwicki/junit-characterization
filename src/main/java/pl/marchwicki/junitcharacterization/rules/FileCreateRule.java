@@ -2,17 +2,18 @@ package pl.marchwicki.junitcharacterization.rules;
 
 import org.junit.rules.ExternalResource;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class FileCreateRule extends ExternalResource {
-    private final File file;
+    private final Path path;
 
-    public FileCreateRule(File file) {
-        this.file = file;
+    public FileCreateRule(Path path) {
+        this.path = path;
     }
 
     @Override
     protected void before() throws Throwable {
-        file.createNewFile();
+        Files.createFile(path);
     }
 }

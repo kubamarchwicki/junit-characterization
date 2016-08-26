@@ -1,14 +1,13 @@
 package pl.marchwicki.junitcharacterization;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 
 public class ReadLines {
 
@@ -16,10 +15,10 @@ public class ReadLines {
         return fromInputStream(new ByteArrayInputStream(stream.toByteArray()));
     }
 
-    public static List<String> fromFile(File file) {
+    public static List<String> fromFile(Path file) {
         try {
-            return fromInputStream(new FileInputStream(file));
-        } catch (FileNotFoundException e) {
+            return Files.readAllLines(file, Charset.defaultCharset());
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

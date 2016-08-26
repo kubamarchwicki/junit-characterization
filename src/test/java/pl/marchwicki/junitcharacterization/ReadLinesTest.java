@@ -8,6 +8,7 @@ import org.junit.rules.TemporaryFolder;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 import static pl.marchwicki.junitcharacterization.builders.TestByteArrayOutputStreamBuilder.*;
@@ -23,7 +24,7 @@ public class ReadLinesTest {
     public void should_return_empty_list_on_empty_file() throws IOException {
         File file = folder.newFile();
 
-        List<String> strings = ReadLines.fromFile(file);
+        List<String> strings = ReadLines.fromFile(file.toPath());
 
         assertThat(strings).isEmpty();
     }
@@ -40,10 +41,10 @@ public class ReadLinesTest {
     @Test
     public void should_return_three_elements_from_file() throws IOException {
         //given
-        final File file = aFile(folder)
-                .withContent("first line" + System.lineSeparator())
-                .withContent("second line" + System.lineSeparator())
-                .withContent("third line" + System.lineSeparator())
+        final Path file = aFile(folder)
+                .withContent("first line")
+                .withContent("second line")
+                .withContent("third line")
                 .build();
 
         //when

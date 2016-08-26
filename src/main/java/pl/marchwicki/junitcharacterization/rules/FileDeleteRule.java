@@ -4,18 +4,19 @@ import org.junit.rules.ExternalResource;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class FileDeleteRule extends ExternalResource {
 
-    private final File file;
+    private final Path path;
 
-    public FileDeleteRule(File file) {
-        this.file = file;
+    public FileDeleteRule(Path path) {
+        this.path = path;
     }
 
     @Override
     protected void before() throws Throwable {
-        Files.deleteIfExists(file.toPath());
-        file.createNewFile();
+        Files.deleteIfExists(path);
+        Files.createFile(path);
     }
 }

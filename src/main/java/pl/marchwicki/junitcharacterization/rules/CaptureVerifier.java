@@ -7,6 +7,7 @@ import pl.marchwicki.junitcharacterization.ReadLines;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -16,9 +17,9 @@ import static pl.marchwicki.junitcharacterization.IsEmptyPatchMatcher.*;
 public class CaptureVerifier extends Verifier {
 
     private final ByteArrayOutputStream capturedStream;
-    private final File pinchFile;
+    private final Path pinchFile;
 
-    public CaptureVerifier(File pinchFile, ByteArrayOutputStream capturedStream) {
+    public CaptureVerifier(Path pinchFile, ByteArrayOutputStream capturedStream) {
         this.pinchFile = pinchFile;
         this.capturedStream = capturedStream;
     }

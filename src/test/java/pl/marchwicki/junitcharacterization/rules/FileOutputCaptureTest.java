@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -24,7 +25,7 @@ public class FileOutputCaptureTest {
         //given
         final ByteArrayOutputStream capturedStream = new ByteArrayOutputStream();
         final PrintStream originalStream = System.out;
-        final File outputFile = folder.newFile();
+        final Path outputFile = folder.newFile().toPath();
         capture = new FileOutputCapture(outputFile, capturedStream);
 
         //when
@@ -42,7 +43,7 @@ public class FileOutputCaptureTest {
                 .isNotEmpty()
                 .contains("first output line")
                 .contains("second output line");
-        assertThat(Files.readAllLines(outputFile.toPath(), StandardCharsets.UTF_8))
+        assertThat(Files.readAllLines(outputFile, StandardCharsets.UTF_8))
                 .isNotEmpty()
                 .contains("first output line")
                 .contains("second output line");

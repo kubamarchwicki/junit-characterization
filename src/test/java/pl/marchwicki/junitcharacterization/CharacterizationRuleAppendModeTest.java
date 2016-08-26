@@ -5,9 +5,10 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.Assert.*;
 import static org.junit.experimental.results.PrintableResult.*;
@@ -18,7 +19,7 @@ public class CharacterizationRuleAppendModeTest {
 
     final static String FIRST_METHOD_PARAM = "first parameter";
     final static String SECOND_METHOD_PARAM = "second parameter";
-    final static String BASE_FOLDER = System.getProperty("java.io.tmpdir") + File.separator;
+    final static String BASE_FOLDER = System.getProperty("java.io.tmpdir");
     final static String FILENAME = "pl.marchwicki.junitcharacterization.CharacterizationRuleAppendModeTest.BusinessClassTest.txt";
 
     public static class BusinessClass {
@@ -56,8 +57,8 @@ public class CharacterizationRuleAppendModeTest {
     public void delete_master_data_files() throws IOException, InterruptedException {
         System.clearProperty(CharacterizationBuilder.ENV_NAME_FOR_RECORDING);
 
-        File outputFile = new File(BASE_FOLDER + FILENAME);
-        Files.deleteIfExists(outputFile.toPath());
+        Path logFile = Paths.get(BASE_FOLDER, FILENAME);
+        Files.deleteIfExists(logFile);
     }
 
     @Test
@@ -65,7 +66,7 @@ public class CharacterizationRuleAppendModeTest {
         System.setProperty(CharacterizationBuilder.ENV_NAME_FOR_RECORDING, "true");
 
         assertThat(testResult(BusinessClassTest.class), isSuccessful());
-        org.assertj.core.api.Assertions.assertThat(new File(BASE_FOLDER + FILENAME))
+        org.assertj.core.api.Assertions.assertThat(Paths.get(BASE_FOLDER, FILENAME))
                 .exists()
                 .hasContent("param = " + FIRST_METHOD_PARAM +
                         System.lineSeparator() + "after split = first" +

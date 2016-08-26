@@ -5,10 +5,14 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static pl.marchwicki.junitcharacterization.CharacterizationRule.*;
 import static org.junit.Assert.*;
@@ -18,7 +22,7 @@ import static org.junit.experimental.results.ResultMatchers.*;
 public class CharacterizationRuleTest {
 
     final static String TEST_METHOD_PARAM = "first parameter";
-    final static String BASE_FOLDER = System.getProperty("java.io.tmpdir") + File.separator;
+    final static String BASE_FOLDER = System.getProperty("java.io.tmpdir");
     final static String FILENAME = "pl.marchwicki.junitcharacterization.CharacterizationRuleTest.BusinessClassTest.txt";
 
     public static class BusinessClass {
@@ -49,8 +53,8 @@ public class CharacterizationRuleTest {
     public void delete_master_data_files() throws IOException, InterruptedException {
         System.clearProperty(CharacterizationBuilder.ENV_NAME_FOR_RECORDING);
 
-        File outputFile = new File(BASE_FOLDER + FILENAME);
-        Files.deleteIfExists(outputFile.toPath());
+        Path outputFile = Paths.get(BASE_FOLDER, FILENAME);
+        Files.deleteIfExists(outputFile);
     }
 
     @Test
@@ -58,14 +62,14 @@ public class CharacterizationRuleTest {
         System.setProperty(CharacterizationBuilder.ENV_NAME_FOR_RECORDING, "true");
 
         assertThat(testResult(BusinessClassTest.class), isSuccessful());
-        org.assertj.core.api.Assertions.assertThat(new File(BASE_FOLDER + FILENAME))
+        org.assertj.core.api.Assertions.assertThat(Paths.get(BASE_FOLDER, FILENAME))
                 .exists()
                 .hasContent("param = " + TEST_METHOD_PARAM + System.lineSeparator() + "after split = first");
     }
 
     @Test
     public void should_throw_file_not_found_exception() {
-        assertThat(testResult(BusinessClassTest.class), hasFailureContaining("java.io.FileNotFoundException"));
+        assertThat(testResult(BusinessClassTest.class), hasFailureContaining("NoSuchFileException"));
     }
 
     @Test
@@ -83,14 +87,9 @@ public class CharacterizationRuleTest {
     }
 
     protected void prepareMasterFile(String... lines) throws IOException {
-        File f = new File(BASE_FOLDER + FILENAME);
-        f.createNewFile();
+        Path outputFile = Paths.get(BASE_FOLDER, FILENAME);
+        Path file = Files.createFile(outputFile);
 
-        FileWriter out = new FileWriter(f);
-        for(String s: lines) {
-            out.write(s);
-            out.write(System.lineSeparator());
-        }
-        out.close();
+        Files.write(file, Arrays.asList(lines), Charset.defaultCharset());
     }
 }
